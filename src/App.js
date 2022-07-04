@@ -32,6 +32,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const messagesRef = collection(db, 'messages');
+let queryLastMessages = query(messagesRef, orderBy('createdAt', 'desc'), limit(25));
 
 function App() {
   const [user] = useAuthState(auth)
@@ -75,20 +76,36 @@ function SignOut() {
 }
 
 
-
+const FirestoreCollection = () => {
+  const [value, loading, error] = useCollectionData(
+    queryLastMessages,
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  console.log(value);
+  return (
+    <div>
+        {error && <strong>Error: {JSON.stringify(error)}</strong>}
+        {loading && <span>Loading Messages...</span>}
+        {value && (
+          <span>
+            {value.reverse().map((doc) => (
+              <ChatMessage key={doc.id}
+              message={doc} />
+            ))}
+          </span>
+        )}
+    </div>
+  );
+};
 
 const ChatRoom = () => {
   
-  const [value, loading, error] = useCollectionData(
-    messagesRef,
-    orderBy('createdAt'),
-    limit(25)
-  );
   const [formValue, setFormValue ] = useState('');
 
   const sendMessage = async(e) => {
     e.preventDefault();
-    console.log(auth.currentUser);
     const {uid, photoURL} = auth.currentUser;
     await addDoc(messagesRef, {
       text: formValue,
@@ -97,21 +114,12 @@ const ChatRoom = () => {
       photoURL
   })
   setFormValue('');
-  
   }
 
-  console.log(value);
   return (
     <>
       <main>
-        {error && <strong>Error: {JSON.stringify(error)}</strong>}
-        {loading && <span>Collection: Loading...</span>}
-        {value && 
-            value.map((doc) => (
-              <ChatMessage key={doc.id}
-              message={doc} />
-            ))
-        }
+        <FirestoreCollection />
       </main>
       <form onSubmit={sendMessage}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
