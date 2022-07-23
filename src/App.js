@@ -25,6 +25,9 @@ const firebaseConfig = {
   measurementId: "G-Y76MMVGZ6Y"
 };
 
+// Conditional compilation
+debug = true;
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
