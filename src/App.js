@@ -79,7 +79,7 @@ function SignOut() {
 }
 
 
-const FirestoreCollection = () => {
+const ChatMessages = () => {
   const [value, loading, error] = useCollectionData(
     queryLastMessages,
     {
@@ -122,7 +122,7 @@ const ChatRoom = () => {
   return (
     <>
       <main>
-        <FirestoreCollection />
+        <ChatMessages />
       </main>
       <form onSubmit={sendMessage}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
