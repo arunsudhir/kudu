@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './css/upload.css';
 import React, {useState} from 'react';
 
 // firebase
@@ -7,11 +7,15 @@ import {initializeApp} from 'firebase/app';
 import {getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth, signInWithPopup, currentUser } from 'firebase/auth'
 import { getAnalytics } from 'firebase/analytics';
+import { getStorage, ref } from "firebase/storage";
 
 
 //hooks
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
+
+//components
+import PhotoUploader from './components/PhotoUploader';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -26,7 +30,7 @@ const firebaseConfig = {
 };
 
 // Conditional compilation
-debug = true;
+const debug = true;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -34,11 +38,25 @@ const analytics = getAnalytics(app);
 
 const auth = getAuth(app);
 const db = getFirestore(app);
+// Create a root reference for storage
+const storage = getStorage();
 const messagesRef = collection(db, 'messages');
 let queryLastMessages = query(messagesRef, orderBy('createdAt', 'desc'), limit(25));
 
 function App() {
   const [user] = useAuthState(auth)
+  //const [photos, setPhotos] = useState([]);
+
+  /*useEffect(() => {
+    // Fetch the photos from the Google Photos API or some other source
+    const fetchPhotos = async () => {
+      const response = await fetch('https://photos.googleapis.com/v1/photos');
+      const data = await response.json();
+      setPhotos(data.photos);
+    };
+
+    fetchPhotos();
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
@@ -47,6 +65,19 @@ function App() {
       <section>
         {user? <ChatRoom /> : <SignIn/>}
       </section>
+    </div>
+  );
+}
+  return (
+    <div className="app">
+      <h1>My Photos</h1>
+      <PhotoGrid photos={photos} />
+    </div>
+  );*/
+  return (
+    <div className="app">
+      <h1>My Photos</h1>
+      {user? <PhotoUploader storage={storage}/>  : <SignIn/> }
     </div>
   );
 }
