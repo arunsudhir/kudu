@@ -1,3 +1,7 @@
+:root {
+    --progress: 20%;
+  }
+
 .progress-bar {
     width: 400px;
     height: 20px;
@@ -9,11 +13,10 @@
     transform: translate(-50%, -50%);
   }
   
-  .progress-bar::before {
+.progress-bar::before {
     content: "";
-    width: var(--progress, 0%);
+    width: 20%;
     height: 100%;
     background-color: #4caf50;
     border-radius: 10px;
   }
-  

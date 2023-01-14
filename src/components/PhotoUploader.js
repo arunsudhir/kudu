@@ -50,7 +50,7 @@ function PhotoUploader(props) {
       <button type="submit" className="upload-button" disabled={uploading}>
         Upload
       </button>
-      {uploading && <div className="progress-bar" style={{ '--progress': `${progress}%` }}></div>}
+      {uploading && <div className="progress-bar"></div>}
     </form>
   );
 }

@@ -20,3 +20,6 @@
   .upload-button:active {
     background-color: #357a38;
   }
+  .upload-button:disabled {
+    background-color: #baffbe;
+  }

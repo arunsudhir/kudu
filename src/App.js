@@ -16,6 +16,8 @@ import { useCollectionData, useCollection } from 'react-firebase-hooks/firestore
 
 //components
 import PhotoUploader from './components/PhotoUploader';
+import PhotoGrid from './components/PhotoGrid';
+import PicGrid from './components/PicGrid';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -77,9 +79,18 @@ function App() {
   return (
     <div className="app">
       <h1>My Photos</h1>
-      {user? <PhotoUploader storage={storage}/>  : <SignIn/> }
+      {user? <PhotoApp storage={storage}/>  : <SignIn/> }
     </div>
   );
+}
+
+function PhotoApp(props) {
+  return (
+    <div>
+    <PhotoUploader storage={props.storage}/>
+    <PicGrid storage={props.storage} />
+    </div>
+  )
 }
 
 function SignIn() {
