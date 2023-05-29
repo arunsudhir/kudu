@@ -7,7 +7,7 @@ import {initializeApp} from 'firebase/app';
 import {getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth, signInWithPopup, currentUser } from 'firebase/auth'
 import { getAnalytics } from 'firebase/analytics';
-import { getStorage, ref } from "firebase/storage";
+import {getStorage, ref } from "firebase/storage";
 
 
 //hooks
